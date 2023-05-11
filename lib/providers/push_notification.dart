@@ -31,14 +31,14 @@ class PushNotication {
       _mensajesStreamController.sink.add(data);
     });
 
-    Future<void> _firebaseMessagingBackgroundHandler(
-        RemoteMessage message) async {
-      final data = message.data['url'];
-      _mensajesStreamController.sink.add(data);
-    }
+    // Future<void> _firebaseMessagingBackgroundHandler(
+    //     RemoteMessage message) async {
+    //   final data = message.data['url'];
+    //   _mensajesStreamController.sink.add(data);
+    // }
 
     // // Escucha las notificaciones cuando la app está en segundo plano
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     // // Función para manejar las notificaciones en segundo plano
   }
