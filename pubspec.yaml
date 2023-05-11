@@ -52,6 +52,7 @@ dev_dependencies:
   firebase_core:
   firebase_messaging: 
   flutter_local_notifications:
+  url_launcher:
   
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -6,6 +6,7 @@ import 'package:sw_eventos/pages/login.dart';
 import 'package:sw_eventos/providers/push_notification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +44,18 @@ class _MyAppState extends State<MyApp> {
         'Hey!, Apareciste en una foto', // título
         'Guarda tus recuerdos!', // cuerpo
         platform, // detalles de la plataforma
-        payload: 'Payload de la notificación', // información adicional
+        payload: data, // información adicional
+      );
+      FlutterLocalNotificationsPlugin().initialize(
+        const InitializationSettings(
+          android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        ),
+        onSelectNotification: (String? payload) async {
+          if (payload != null) {
+            // ignore: deprecated_member_use
+            await launch(payload);
+          }
+        },
       );
     });
   }
