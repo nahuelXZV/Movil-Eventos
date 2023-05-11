@@ -25,7 +25,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
   Future<void> _getImages() async {
     final prefs = await SharedPreferences.getInstance();
     final user = jsonDecode(prefs.getString("user")!);
-    print(user['id']);
     // print(user['id']);
 
     // Realizar la solicitud HTTP a la API
@@ -34,7 +33,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print(data);
       // Obtener la lista de URL de imágenes del JSON y actualizar el estado
       List<List<String>> imagesLocal = [];
       List<String> eventos = [];
@@ -45,9 +43,15 @@ class _GalleryScreenState extends State<GalleryScreen> {
         List<String> fotos = [];
         for (var foto in compra['fotos']) {
           fotos.add(foto['fotoEvento']['dirFotoCompresa']);
-          print(foto['fotoEvento']['dirFotoCompresa']);
         }
         imagesLocal.add(fotos);
+      }
+      if (imagesLocal.isEmpty) {
+        imagesLocal.add([
+          'https://img.freepik.com/vector-gratis/elegante-fondo-blanco-lineas-brillantes_1017-17580.jpg?w=360',
+          'https://img.freepik.com/vector-gratis/elegante-fondo-blanco-lineas-brillantes_1017-17580.jpg?w=360'
+        ]);
+        eventos.add('No tienes fotos');
       }
 
       setState(() {
@@ -55,7 +59,6 @@ class _GalleryScreenState extends State<GalleryScreen> {
         _eventos = eventos;
       });
     } else {
-      // Si la respuesta no es exitosa, mostrar un mensaje de error
       print('Error al obtener las imágenes: ${response.statusCode}');
     }
   }

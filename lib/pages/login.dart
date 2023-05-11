@@ -37,7 +37,11 @@ class _pageLoginState extends State<pageLogin> {
 
   Future<void> _login() async {
     if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
-      var url = Uri.parse('${Direccion().servidor}login');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final tokenMobile = prefs.getString('tokenMobile');
+      print(tokenMobile);
+      var url =
+          Uri.parse('${Direccion().servidor}login?tokenMobile=$tokenMobile');
       Map data = {
         'email': _email.text,
         'password': _password.text,
@@ -47,7 +51,6 @@ class _pageLoginState extends State<pageLogin> {
       if (response.statusCode == 201) {
         String body = utf8.decode(response.bodyBytes);
         final jsonData = jsonDecode(body);
-        SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString("accessToken", jsonData['accessToken']);
         final user = jsonEncode(jsonData['User']);
         prefs.setString("user", user);
